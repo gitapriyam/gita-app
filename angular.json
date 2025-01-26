@@ -31,7 +31,7 @@
                 "input": "src/assets",
                 "output": "assets"                
               },
-              "src/staticwebapp.config.json"
+              "src/web.config"
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],
             "scripts": [],
