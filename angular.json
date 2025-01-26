@@ -18,10 +18,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": {
-              "base": "dist/gita-app",
-              "browser": ""
-            },
+            "outputPath": "dist/gita-app", 
             "index": "src/index.html",
             "polyfills": [
               "src/polyfills.ts"
