@@ -64,5 +64,5 @@ jobs:
         with:
           app-name: 'gita-abhyasa'
           slot-name: 'staging'
-          package: .
+          package: ./dist/gita-app
           
