@@ -29,9 +29,9 @@
               {
                 "glob": "**/*",
                 "input": "src/assets",
-                "output": "assets",
-                "src/staticwebapp.config.json"
-              }
+                "output": "assets"                
+              },
+              "src/staticwebapp.config.json"
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],
             "scripts": [],
