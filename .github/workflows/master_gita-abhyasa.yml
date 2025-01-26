@@ -62,7 +62,7 @@ jobs:
         run: unzip release.zip
 
       - name: List unzipped files
-        run: ls -la dist/gita-app/browser
+        run: ls -laR dist/gita-app
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -77,5 +77,5 @@ jobs:
         with:
           app-name: 'gita-abhyasa'
           slot-name: 'staging'
-          package: dist/gita-app/browser
+          package: dist/gita-app/
           
