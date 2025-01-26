@@ -7,9 +7,13 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:prod": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   },
   "private": true,
   "dependencies": {

@@ -1,0 +1,13 @@
+<div class="sloka-list-container">
+  <ng-container *ngFor="let item of items; let i = index">
+    <ion-card (click)="onItemClicked(i)">
+      <ion-card-header>
+        <ion-card-title>Sloka {{ i + 1 }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <pre>{{ item }}</pre>
+        <ion-icon name="arrow-forward-circle-outline" size="large" class="click-icon"></ion-icon>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+</div>

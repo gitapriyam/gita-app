@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{chapterName}} - Sloka {{ index + 1 }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-breadcrumbs>
+    <ion-breadcrumb href="/chapter/{{ chapterId }}">{{ chapterName }}</ion-breadcrumb>
+    <ion-breadcrumb>Sloka {{ index + 1 }}</ion-breadcrumb>
+  </ion-breadcrumbs>
+
+  <div class="icon-cards">
+    <ion-card>
+      <ion-card-header>
+        <ion-title>English</ion-title>
+      </ion-card-header>
+      <ion-card-content>
+        <pre>{{ englishSloka }}</pre>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-title>Sanskrit</ion-title>
+      </ion-card-header>
+      <ion-card-content>
+        <pre>{{ sanskritSloka }}</pre>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-title>Meaning</ion-title>
+      </ion-card-header>
+      <ion-card-content>
+        <pre>{{ slokaMeaning }}</pre>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-title>Sloka Audio</ion-title>
+      </ion-card-header>
+      <ion-card-content>
+        <audio controls [src]="slokaAudioSrc"></audio>
+        <div>
+          <a *ngIf="slokaAudioSrc" [href]="slokaAudioSrc" target="_blank" download>Download Audio</a>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-title>Chapter Audio</ion-title>
+      </ion-card-header>
+      <ion-card-content>
+        <audio controls [src]="chapterAudioSrc"></audio>
+        <div>
+          <a *ngIf="chapterAudioSrc" [href]="chapterAudioSrc" target="_blank"  download>Download Audio</a>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-title>Chapter Resource</ion-title>
+      </ion-card-header>
+      <ion-card-content>
+          <a *ngIf="chapterResource" [href]="chapterResource" target="_blank"  download>Chapter PDF</a>
+        </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
