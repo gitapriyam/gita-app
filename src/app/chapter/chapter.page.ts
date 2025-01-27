@@ -15,7 +15,7 @@ import { SlokaListComponent } from '../sloka-list/sloka-list.component';
 })
 
 export class ChapterPage implements OnInit {
-  public chapter!: string;
+  public chapterId!: string;
   public chapterTitle!: string;
   public contentArray: string[] = [];
   private activatedRoute = inject(ActivatedRoute);
@@ -24,10 +24,10 @@ export class ChapterPage implements OnInit {
     private utilityService: UtilityService) { }
 
   ngOnInit() {
-    this.chapter = this.activatedRoute.snapshot.paramMap.get('id') as string;
-    this.chapterTitle = this.getChapterTitle(this.chapter);
-    const chapterNumber: string = this.utilityService.getChapterNumber(this.chapter);
-    const slokaCount: number = this.utilityService.getNumberOfVerses(this.chapter);
+    this.chapterId = this.activatedRoute.snapshot.paramMap.get('chapterId') as string;
+    this.chapterTitle = this.getChapterTitle(this.chapterId);
+    const chapterNumber: string = this.utilityService.getLeftAppendedNumber(Number(this.utilityService.getChapterNumber(this.chapterId)));
+    const slokaCount: number = this.utilityService.getNumberOfVerses(this.chapterId);
     for (let i = 1; i <= slokaCount; i++) {
       const slokaIndex = this.utilityService.getLeftAppendedNumber(i);
       const slokaURL: string = this.utilityService.getSlokaURL(chapterNumber, slokaIndex, 'english'); 
@@ -38,7 +38,7 @@ export class ChapterPage implements OnInit {
   }  
   onItemClicked(index: number) {
     // Navigate to the desired page with the index
-    this.router.navigate(['/sloka', index, { chapterId: this.chapter }]);
+    this.router.navigate([`/chapter/${this.chapterId}/sloka/${index + 1}`]);
   }
   getChapterTitle(chapterId: string): string {
     const page = environment.appPages.find(p => p.url.includes(chapterId));

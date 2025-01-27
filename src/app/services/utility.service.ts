@@ -7,23 +7,23 @@ export class UtilityService {
 
   constructor() {}
 
-  getChapterNumber(chapterContent: string): string {
-    if (chapterContent.includes('Dhyanam')) {
-      return '00';
-    } else if (chapterContent.includes('Mahatmyam')) {
+  getChapterNumber(chapterId: string): string {
+    if (chapterId.includes('Dhyanam')) {
+      return '0';
+    } else if (chapterId.includes('Mahatmyam')) {
       return '19';
     } else {
-      return chapterContent.split('-')[1];
+      return chapterId.split('-')[1];
     }
   }
 
-  getSlokaArrayIndex(chapterContent: string): number {
-    const chapterNumber = this.getChapterNumber(chapterContent);
+  getSlokaArrayIndex(chapterId: string): number {
+    const chapterNumber = this.getChapterNumber(chapterId);
     return Number(chapterNumber); 
   }
 
-  getNumberOfVerses(chapterContent: string): number {
-    const index: number =  this.getSlokaArrayIndex(chapterContent);
+  getNumberOfVerses(chapterId: string): number {
+    const index: number =  this.getSlokaArrayIndex(chapterId);
     return environment.slokasArray[index];
   }
 
@@ -45,11 +45,14 @@ export class UtilityService {
     }
   }
 
-  getChapterIndex(chapterName: string): number {
-    console.log("chapterName: ===" + chapterName);
-    let index: number = environment.appPages.findIndex(page => page.title.includes(chapterName));
+  getChapterIndex(chapterId: string): number {
+    let index: number = environment.appPages.findIndex(page => page.title.includes(chapterId));
     if (index === -1) {
+      if (chapterId.includes('00')) {
+        index = 0;
+      } else if (chapterId.includes('19')) {
       index = 19;
+      }
     }
     return index;
   }
@@ -77,4 +80,8 @@ export class UtilityService {
     let url = environment.baseURL + "/chap" + chapterNumber + "/" + effectiveChapter + ".pdf";
     return url;
   } 
+
+  getTotalSlokas(chapterId: string): number {
+    return environment.slokasArray[this.getSlokaArrayIndex(chapterId)];
+  }
 }

@@ -1,12 +1,13 @@
-name: Build and Deploy to Azure
+name: Build and deploy Angular app to Azure Static Web Apps
 
 on:
   push:
     branches:
-      - master
+      - main  # Ensure this matches your main branch name
+  workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,7 +17,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20'
+          node-version: '20.x'
 
       - name: Install dependencies
         run: npm install
@@ -24,10 +25,24 @@ jobs:
       - name: Build project
         run: npm run build -- --configuration=production
 
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
+      - name: List build directory
+        run: ls -la ./dist/gita-app/browser
+
+      - name: Install Azure Static Web Apps CLI
+        run: npm install -g @azure/static-web-apps-cli
+
+      - name: Login to Azure
+        uses: azure/login@v2
         with:
-          app-name: gita-abhyasa
-          slot-name: production
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: ./dist/gita-app
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3B2DDA19A0AD4B5BB07E3DBD9657D17A }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_EB45F6D6711549F6B42F415384F0A6B6 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_AED43E07D0764F5A98E91F4B009EDF33 }}
+          
+      - name: Deploy to Azure Static Web Apps
+        env:
+          AZURE_STATIC_WEB_APPS_API_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          AZURE_STATIC_WEB_APPS_APP_NAME: ${{ secrets.AZURE_STATIC_WEB_APPS_APP_NAME }}
+          AZURE_STATIC_WEB_APPS_RESOURCE_GROUP: ${{ secrets.AZURE_STATIC_WEB_APPS_RESOURCE_GROUP }}
+          AZURE_STATIC_WEB_APPS_SUBSCRIPTION_ID: ${{ secrets.AZURE_STATIC_WEB_APPS_SUBSCRIPTION_ID }}
+        run: |
+          swa deploy --config swa-cli.config.json --app-location src --output-location dist/gita-app/browser

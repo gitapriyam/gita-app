@@ -3,14 +3,15 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>{{chapterName}} - Sloka {{ index + 1 }}</ion-title>
+    <ion-title>{{chapterName}} - Sloka {{ slokaId }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-breadcrumbs>
     <ion-breadcrumb href="/chapter/{{ chapterId }}">{{ chapterName }}</ion-breadcrumb>
-    <ion-breadcrumb>Sloka {{ index + 1 }}</ion-breadcrumb>
+    <ion-breadcrumb>Sloka {{ slokaId }}</ion-breadcrumb>
+    <ion-breadcrumb *ngIf="hasNextSloka()" href="/chapter/{{ chapterId }}/sloka/{{ slokaId + 1 }}" style="margin-left:auto;">Next</ion-breadcrumb>
   </ion-breadcrumbs>
 
   <div class="icon-cards">
@@ -19,7 +20,7 @@
         <ion-title>English</ion-title>
       </ion-card-header>
       <ion-card-content>
-        <pre>{{ englishSloka }}</pre>
+        <pre class="custom-pre">{{ englishSloka }}</pre>
       </ion-card-content>
     </ion-card>
 
@@ -28,7 +29,7 @@
         <ion-title>Sanskrit</ion-title>
       </ion-card-header>
       <ion-card-content>
-        <pre>{{ sanskritSloka }}</pre>
+        <pre class="custom-pre">{{ sanskritSloka }}</pre>
       </ion-card-content>
     </ion-card>
 
@@ -37,7 +38,7 @@
         <ion-title>Meaning</ion-title>
       </ion-card-header>
       <ion-card-content>
-        <pre>{{ slokaMeaning }}</pre>
+        <pre class="custom-pre">{{ slokaMeaning }}</pre>
       </ion-card-content>
     </ion-card>
 

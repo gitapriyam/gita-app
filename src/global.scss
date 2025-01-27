@@ -35,3 +35,34 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+:root {
+    --text-color-light: #0c0257;
+    --text-color-dark: #ffffff;
+    --background-color-light: #ffffff;
+    --background-color-dark: #121212;
+  }
+
+.custom-pre {
+  color: var(--text-color-light);
+  background: var(--background-color-light);
+  font-family: inherit;
+  font-size: inherit;
+  margin: 0;
+  padding: 0;
+  white-space: pre-wrap; /* This ensures that the content wraps within the parent container */
+  word-wrap: break-word; /* This ensures that long words break and wrap within the parent container */
+  background: inherit;
+}
+
+ion-title {
+  text-align: center;
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  .custom-pre {
+    color: var(--text-color-dark);
+    background: var(--background-color-dark);
+  }
+}

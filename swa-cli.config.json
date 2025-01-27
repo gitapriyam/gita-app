@@ -1,0 +1,35 @@
+{
+  "$schema": "https://aka.ms/azure/static-web-apps-cli/schema",
+  "configurations": {
+    "local": {
+      "appLocation": ".",
+      "outputLocation": "dist/gita-app/",
+      "appBuildCommand": "npm run build",
+      "run": "npm start",
+      "appDevserverUrl": "http://localhost:4200",
+      "appName": "gita-app",
+      "resourceGroup": "gita-app-rg"
+    },
+    "production": {
+      "appLocation": "src",
+      "outputLocation": "dist/gita-app/browser",
+      "routes": [
+        {
+          "route": "/*",
+          "serve": "/index.html",
+          "statusCode": 200
+        }
+      ],
+      "navigationFallback": {
+        "rewrite": "/index.html",
+        "exclude": [
+          "/images/*.{png,jpg,gif}",
+          "/css/*"
+        ]
+      },
+      "mimeTypes": {
+        ".json": "application/json"
+      }
+    }
+  }
+}
