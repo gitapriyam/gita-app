@@ -5,7 +5,7 @@ import { IonApp, IonSplitPane, IonMenu, IonContent,
   IonList, IonListHeader, IonMenuToggle, 
   IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { folderOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp, arrowForwardCircleOutline } from 'ionicons/icons';
+import { folderOutline, arrowForwardCircleOutline, arrowBackCircleOutline } from 'ionicons/icons';
 import { environment } from '../environments/environment';
 
 @Component({
@@ -20,6 +20,6 @@ export class AppComponent {
   public appPages = environment.appPages;
   
   constructor() {
-    addIcons({ folderOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp, arrowForwardCircleOutline });
+    addIcons({ folderOutline, arrowForwardCircleOutline, arrowBackCircleOutline });
   }
 }

@@ -10,7 +10,7 @@
       "appName": "gita-app",
       "resourceGroup": "gita-app-rg"
     },
-    "production": {
+    "test": {
       "appLocation": "src",
       "outputLocation": "dist/gita-app/browser",
       "routes": [
@@ -29,7 +29,9 @@
       },
       "mimeTypes": {
         ".json": "application/json"
-      }
+      },
+      "appName": "gita-app",
+      "resourceGroup": "gita-app-rg"
     }
   }
 }

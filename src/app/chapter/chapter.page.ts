@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent } from '@ionic/angular/standalone';
 import { ContentService } from '../services/content.service';
@@ -15,19 +14,19 @@ import { SlokaListComponent } from '../sloka-list/sloka-list.component';
 })
 
 export class ChapterPage implements OnInit {
-  public chapterId!: string;
-  public chapterTitle!: string;
-  public contentArray: string[] = [];
-  private activatedRoute = inject(ActivatedRoute);
-  private router = inject(Router);
+  chapterId!: number;
+  chapterTitle!: string;
+  contentArray: string[] = [];
+  activatedRoute = inject(ActivatedRoute);
+  router = inject(Router);
   constructor(private contentService: ContentService,
     private utilityService: UtilityService) { }
 
   ngOnInit() {
-    this.chapterId = this.activatedRoute.snapshot.paramMap.get('chapterId') as string;
+    this.chapterId = +this.activatedRoute.snapshot.paramMap.get('id')!;
     this.chapterTitle = this.getChapterTitle(this.chapterId);
-    const chapterNumber: string = this.utilityService.getLeftAppendedNumber(Number(this.utilityService.getChapterNumber(this.chapterId)));
-    const slokaCount: number = this.utilityService.getNumberOfVerses(this.chapterId);
+    const chapterNumber: string = this.utilityService.getLeftAppendedNumber(this.chapterId);
+    const slokaCount: number = this.utilityService.getSlokaCount(this.chapterId);
     for (let i = 1; i <= slokaCount; i++) {
       const slokaIndex = this.utilityService.getLeftAppendedNumber(i);
       const slokaURL: string = this.utilityService.getSlokaURL(chapterNumber, slokaIndex, 'english'); 
@@ -40,8 +39,8 @@ export class ChapterPage implements OnInit {
     // Navigate to the desired page with the index
     this.router.navigate([`/chapter/${this.chapterId}/sloka/${index + 1}`]);
   }
-  getChapterTitle(chapterId: string): string {
-    const page = environment.appPages.find(p => p.url.includes(chapterId));
+  getChapterTitle(chapterId: number): string {
+    const page = environment.appPages.find(p => p.id === chapterId);
     return page ? page.title : 'Chapter';
   }
 }

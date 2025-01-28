@@ -3,7 +3,11 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>{{chapterName}} - Sloka {{ slokaId }}</ion-title>
+    <div class="title-container">
+      <ion-icon *ngIf="hasPreviousSloka()" name="arrow-back-circle-outline" size="large" (click)="navigateToPreviousSloka()" class="nav-icon"></ion-icon>
+      <ion-title class="title">{{chapterName}} - Sloka {{ slokaId }}</ion-title>
+      <ion-icon *ngIf="hasNextSloka()" name="arrow-forward-circle-outline" size="large" (click)="navigateToNextSloka()" class="nav-icon forward-icon"></ion-icon>
+    </div>
   </ion-toolbar>
 </ion-header>
 
@@ -11,7 +15,6 @@
   <ion-breadcrumbs>
     <ion-breadcrumb href="/chapter/{{ chapterId }}">{{ chapterName }}</ion-breadcrumb>
     <ion-breadcrumb>Sloka {{ slokaId }}</ion-breadcrumb>
-    <ion-breadcrumb *ngIf="hasNextSloka()" href="/chapter/{{ chapterId }}/sloka/{{ slokaId + 1 }}" style="margin-left:auto;">Next</ion-breadcrumb>
   </ion-breadcrumbs>
 
   <div class="icon-cards">

@@ -1,5 +1,6 @@
 import { effect, Injectable, numberAttribute } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { h } from 'ionicons/dist/types/stencil-public-runtime';
 @Injectable({
   providedIn: 'root'
 })
@@ -7,24 +8,12 @@ export class UtilityService {
 
   constructor() {}
 
-  getChapterNumber(chapterId: string): string {
-    if (chapterId.includes('Dhyanam')) {
-      return '0';
-    } else if (chapterId.includes('Mahatmyam')) {
-      return '19';
-    } else {
-      return chapterId.split('-')[1];
-    }
+  getChapterNumber(chapterId: number): number {
+    return chapterId;
   }
 
-  getSlokaArrayIndex(chapterId: string): number {
-    const chapterNumber = this.getChapterNumber(chapterId);
-    return Number(chapterNumber); 
-  }
-
-  getNumberOfVerses(chapterId: string): number {
-    const index: number =  this.getSlokaArrayIndex(chapterId);
-    return environment.slokasArray[index];
+  getSlokaArrayIndex(chapterId: number): number {
+    return chapterId; 
   }
 
   getLeftAppendedNumber(number: number): string {
@@ -35,14 +24,8 @@ export class UtilityService {
     return environment.baseURL + "/chap" + chapterNumber + "/" + lang + "_" + chapterNumber + "_" + slokaIndex + ".txt"
   }
 
-  getChapterName(chapterId: string): string {
-    if (chapterId.includes('00')) {
-      return 'Dhyanam';
-    } else if (chapterId.includes('19')) {
-      return 'Mahatmyam';
-    } else {
-      return chapterId;
-    }
+  getChapterName(chapterId: number): string {
+    return environment.appPages[chapterId].title;
   }
 
   getChapterIndex(chapterId: string): number {
@@ -81,7 +64,7 @@ export class UtilityService {
     return url;
   } 
 
-  getTotalSlokas(chapterId: string): number {
-    return environment.slokasArray[this.getSlokaArrayIndex(chapterId)];
+  getSlokaCount(chapterId: number): number {
+    return environment.slokasArray[chapterId];
   }
 }
