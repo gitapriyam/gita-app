@@ -32,7 +32,7 @@ export class ChapterPage implements OnInit {
       const slokaIndex = this.utilityService.getLeftAppendedNumber(i);
       const slokaURL: string = this.utilityService.getSlokaURL(chapterNumber, slokaIndex, 'english'); 
       this.contentService.getContent(slokaURL).subscribe((data: string) => {
-        this.contentArray.push(data);
+        this.contentArray[i - 1] = data;
       });
     }    
   }  

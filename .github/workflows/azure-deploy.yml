@@ -1,48 +1,64 @@
-name: Build and deploy Angular app to Azure Static Web Apps
+name: Azure Static Web Apps CI/CD
 
 on:
   push:
     branches:
-      - main  # Ensure this matches your main branch name
-  workflow_dispatch:
-
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - master
 jobs:
-  build:
+  build_and_deploy_job:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    permissions:
+       id-token: write
+       contents: read
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+        lfs: false
+    - name: Install OIDC Client from Core Package
+      run: npm install @actions/core@1.6.0 @actions/http-client
+    - name: Get Id Token
+      uses: actions/github-script@v6
+      id: idtoken
+      with:
+          script: |
+              const coredemo = require('@actions/core')
+              return await coredemo.getIDToken()
+          result-encoding: string
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20.x'
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20.x'
 
-      - name: Install dependencies
-        run: npm install
+    - name: Install dependencies
+      run: npm install
 
-      - name: Build project
-        run: npm run build -- --configuration=production
+    - name: Build project
+      run: npm run build -- --configuration=production
 
-      - name: List build directory
-        run: ls -la ./dist/gita-app/browser
+    - name: List build directory
+      run: ls -la ./dist/gita-app/browser
 
-      - name: Install Azure Static Web Apps CLI
-        run: npm install -g @azure/static-web-apps-cli
+    - name: Install Azure Static Web Apps CLI
+      run: npm install -g @azure/static-web-apps-cli
 
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3B2DDA19A0AD4B5BB07E3DBD9657D17A }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_EB45F6D6711549F6B42F415384F0A6B6 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_AED43E07D0764F5A98E91F4B009EDF33 }}
-          
-      - name: Deploy to Azure Static Web Apps
-        env:
-          AZURE_STATIC_WEB_APPS_API_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          AZURE_STATIC_WEB_APPS_APP_NAME: ${{ secrets.AZURE_STATIC_WEB_APPS_APP_NAME }}
-          AZURE_STATIC_WEB_APPS_RESOURCE_GROUP: ${{ secrets.AZURE_STATIC_WEB_APPS_RESOURCE_GROUP }}
-          AZURE_STATIC_WEB_APPS_SUBSCRIPTION_ID: ${{ secrets.AZURE_STATIC_WEB_APPS_SUBSCRIPTION_ID }}
-        run: |
-          swa deploy --config swa-cli.config.json --app-location src --output-location dist/gita-app/browser
+    - name: Build And Deploy
+      id: builddeploy
+      uses: Azure/static-web-apps-deploy@v1
+      with:
+        azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_DELIGHTFUL_POND_0BBA33E1E }}
+        action: "upload"
+        ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
+        # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
+        app_location: "src" # App source code path
+        output_location: "dist/gita-app/browser" # Built app content directory - optional
+        github_id_token: ${{ steps.idtoken.outputs.result }}
+        ###### End of Repository/Build Configurations ######
