@@ -24,24 +24,18 @@ export class ChapterPage implements OnInit {
 
   ngOnInit() {
     this.chapterId = +this.activatedRoute.snapshot.paramMap.get('id')!;
-    this.chapterTitle = this.getChapterTitle(this.chapterId);
-    const chapterNumber: string = this.utilityService.getLeftAppendedNumber(this.chapterId);
+    this.chapterTitle = this.utilityService.getChapterName(this.chapterId);
     const slokaCount: number = this.utilityService.getSlokaCount(this.chapterId);
-    for (let i = 1; i <= slokaCount; i++) {
-      const slokaIndex = this.utilityService.getLeftAppendedNumber(i);
-      const slokaURL: string = this.utilityService.getSlokaURL(chapterNumber, slokaIndex, 'english'); 
+    for (let index = 1; index <= slokaCount; index++) {
+      const slokaURL: string = this.utilityService.getSlokaURL(this.chapterId, index, 'english');
       this.contentService.getContent(slokaURL).subscribe((data: string) => {
-        this.contentArray[i - 1] = data;
+        this.contentArray[index - 1] = data;
       });
-    }    
-  }  
+    }
+  }
   onItemClicked(index: number) {
     // Navigate to the desired page with the index
     this.router.navigate([`/chapter/${this.chapterId}/sloka/${index + 1}`]);
-  }
-  getChapterTitle(chapterId: number): string {
-    const page = environment.appPages.find(p => p.id === chapterId);
-    return page ? page.title : 'Chapter';
   }
 }
 

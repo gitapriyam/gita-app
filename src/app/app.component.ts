@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
@@ -10,6 +9,7 @@ import { addIcons } from 'ionicons';
 import { folderOutline, arrowForwardCircleOutline, arrowBackCircleOutline } from 'ionicons/icons';
 import { environment } from '../environments/environment';
 import { FooterComponent } from './footer/footer.component';
+import { ChapterPage } from './chapter/chapter.page'
 
 @Component({
   selector: 'app-root',
@@ -21,7 +21,7 @@ import { FooterComponent } from './footer/footer.component';
     FooterComponent],
 })
 export class AppComponent {
-  public appPages = environment.appPages;
+  public chapters = environment.chapters;
 
   constructor() {
     addIcons({ folderOutline, arrowForwardCircleOutline, arrowBackCircleOutline });

@@ -39,22 +39,22 @@ export class SlokaComponent implements OnInit {
     this.slokaId = +(this.activatedRoute.snapshot.paramMap.get('slokaId')!);
     this.chapterName = this.utilityService.getChapterName(this.chapterId);
 
-    const chapterIndex: string = this.utilityService.getLeftAppendedNumber(this.chapterId);
-    const slokaURL = this.utilityService.getSlokaURL(chapterIndex, this.utilityService.getLeftAppendedNumber(this.slokaId), 'english');
+    const slokaURL = this.utilityService.getSlokaURL(this.chapterId, this.slokaId, 'english');
     this.contentService.getContent(slokaURL).subscribe(content => {
       this.englishSloka = content;
     });
-    const sanskritSlokaURL = this.utilityService.getSlokaURL(chapterIndex, this.utilityService.getLeftAppendedNumber(this.slokaId), 'sanskrit');
+    const sanskritSlokaURL = this.utilityService.getSlokaURL(this.chapterId, this.slokaId, 'sanskrit');
     this.contentService.getContent(sanskritSlokaURL).subscribe(content => {
       this.sanskritSloka = content;
     });
-    const meaningURL = this.utilityService.getSlokaURL(chapterIndex, this.utilityService.getLeftAppendedNumber(this.slokaId), 'meaning');
+    const meaningURL = this.utilityService.getSlokaURL(this.chapterId, this.slokaId, 'meaning');
     this.contentService.getContent(meaningURL).subscribe(content => {
       this.slokaMeaning = content;
     });
-    this.slokaAudioSrc = this.utilityService.getSlokaAudioURL(chapterIndex, this.utilityService.getLeftAppendedNumber(this.slokaId));
-    this.chapterAudioSrc = this.utilityService.getChapterAudioURL(this.chapterName, chapterIndex);
-    this.chapterResource = this.utilityService.getChapterResource(this.chapterName, chapterIndex);
+    
+    this.slokaAudioSrc = this.utilityService.getSlokaAudioURL(this.chapterId, this.slokaId);
+    this.chapterAudioSrc = this.utilityService.getChapterAudioURL(this.chapterId);
+    this.chapterResource = this.utilityService.getChapterResource(this.chapterId);
     this.totalSlokas = this.utilityService.getSlokaCount(this.chapterId);
   }
 
