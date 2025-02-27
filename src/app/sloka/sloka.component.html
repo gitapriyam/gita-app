@@ -1,79 +1,15 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <div class="title-container">
-      <ion-icon *ngIf="hasPreviousSloka()" name="arrow-back-circle-outline" size="large" (click)="navigateToPreviousSloka()" class="nav-icon"></ion-icon>
-      <ion-title class="title">{{chapterName}} - Sloka {{ slokaId }}</ion-title>
-      <ion-icon *ngIf="hasNextSloka()" name="arrow-forward-circle-outline" size="large" (click)="navigateToNextSloka()" class="nav-icon forward-icon"></ion-icon>
-    </div>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-  <ion-breadcrumbs>
-    <ion-breadcrumb href="/chapter/{{ chapterId }}">{{ chapterName }}</ion-breadcrumb>
-    <ion-breadcrumb>Sloka {{ slokaId }}</ion-breadcrumb>
-  </ion-breadcrumbs>
-
-  <div class="icon-cards">
-    <ion-card>
-      <ion-card-header>
-        <ion-title>English</ion-title>
-      </ion-card-header>
-      <ion-card-content>
-        <pre class="custom-pre">{{ englishSloka }}</pre>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card>
-      <ion-card-header>
-        <ion-title>Sanskrit</ion-title>
-      </ion-card-header>
-      <ion-card-content>
-        <pre class="custom-pre">{{ sanskritSloka }}</pre>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card>
-      <ion-card-header>
-        <ion-title>Meaning</ion-title>
-      </ion-card-header>
-      <ion-card-content>
-        <pre class="custom-pre">{{ slokaMeaning }}</pre>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card>
-      <ion-card-header>
-        <ion-title>Sloka Audio</ion-title>
-      </ion-card-header>
-      <ion-card-content>
-        <audio controls [src]="slokaAudioSrc"></audio>
-        <div>
-          <a *ngIf="slokaAudioSrc" [href]="slokaAudioSrc" target="_blank" download>Download Audio</a>
-        </div>
-      </ion-card-content>
-    </ion-card>
-    <ion-card>
-      <ion-card-header>
-        <ion-title>Chapter Audio</ion-title>
-      </ion-card-header>
-      <ion-card-content>
-        <audio controls [src]="chapterAudioSrc"></audio>
-        <div>
-          <a *ngIf="chapterAudioSrc" [href]="chapterAudioSrc" target="_blank"  download>Download Audio</a>
-        </div>
-      </ion-card-content>
-    </ion-card>
-    <ion-card>
-      <ion-card-header>
-        <ion-title>Chapter Resource</ion-title>
-      </ion-card-header>
-      <ion-card-content>
-          <a *ngIf="chapterResource" [href]="chapterResource" target="_blank"  download>Chapter PDF</a>
-        </ion-card-content>
-    </ion-card>
+<div class="sloka-content">
+  <div class="card">
+    <h3>Shloka- Meaning</h3>
+    <pre class="custom-pre">{{slokaMeaning}}</pre>
   </div>
-</ion-content>
+  <div class="card">
+    <h3>Shloka- Audio</h3>
+    <div class="audio">
+      <audio controls>
+        <source src="{{slokaAudioSrc}}" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+  </div>
+</div>

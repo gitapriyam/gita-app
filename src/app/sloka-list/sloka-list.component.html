@@ -1,13 +1,17 @@
-<div class="sloka-list-container">
-  <ng-container *ngFor="let item of items; let i = index">
-    <ion-card (click)="onItemClicked(i)">
-      <ion-card-header>
-        <ion-card-title>Sloka {{ i + 1 }}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <pre class="custom-pre">{{ item }}</pre>
-        <ion-icon name="arrow-forward-circle-outline" size="large" class="click-icon"></ion-icon>
-      </ion-card-content>
-    </ion-card>
-  </ng-container>
+<div class="sloka-list" id="sloka-list">
+    <div class="sloka-list-header">
+        <h4>{{ chapterName }}</h4>
+        <label>
+            <input type="checkbox" [(ngModel)]="showSanskrit" (change)="onToggleSanskrit()"> Show Sanskrit
+        </label>
+    </div>
+    <ul>
+        <li *ngFor="let sloka of slokas; let i = index">
+            <h4 > {{ getSlokaTitle(i + 1) }}</h4>
+            <pre (click)="toggleSloka(i + 1)" class="custom-pre clickable">{{ sloka }}</pre>
+            <div *ngIf="expandedSloka === i + 1">                
+                <app-sloka [chapterId]="chapterId" [slokaId]="i + 1" [showSanskrit]="showSanskrit"></app-sloka>
+            </div>
+        </li>
+    </ul>
 </div>

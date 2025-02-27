@@ -1,0 +1,69 @@
+.sloka-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.card {
+  background-color: var(--card-background-color);
+  border: 1px solid var(--card-border-color);
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+.custom-pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.sloka-title {
+  margin: 0 20px;
+  text-align: center;
+  flex-grow: 1;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sloka-title a {
+  cursor: pointer;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.sloka-title a:hover {
+  text-decoration: underline;
+}
+
+.sloka-title::after {
+  content: '>';
+  margin: 0 5px;
+}
+
+.sloka-navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.sloka-navigation i {
+  font-size: 24px;
+  color: #007bff;
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+.sloka-navigation i.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}

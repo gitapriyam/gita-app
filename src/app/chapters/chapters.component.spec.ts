@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SlokaComponent } from './sloka.component';
+import { ChaptersComponent } from './chapters.component';
 
-describe('SlokaComponent', () => {
-  let component: SlokaComponent;
-  let fixture: ComponentFixture<SlokaComponent>;
+describe('ChaptersComponent', () => {
+  let component: ChaptersComponent;
+  let fixture: ComponentFixture<ChaptersComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SlokaComponent]
+      imports: [ChaptersComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SlokaComponent);
+    fixture = TestBed.createComponent(ChaptersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -7,12 +7,30 @@
       "appBuildCommand": "npm run build",
       "run": "npm start",
       "appDevserverUrl": "http://localhost:4200",
+      "routes": [
+        {
+          "route": "/*",
+          "serve": "/index.html",
+          "statusCode": 200
+        }
+      ],
+      "navigationFallback": {
+        "rewrite": "/index.html",
+        "exclude": [
+          "/images/*.{png,jpg,gif}",
+          "/css/*"
+        ]
+      },
+      "mimeTypes": {
+        ".json": "application/json"
+      },
       "appName": "gita-app",
       "resourceGroup": "gita-app-rg"
     },
     "test": {
       "appLocation": "src",
-      "outputLocation": "dist/gita-app/browser",
+      "outputLocation": "dist/gita-app",
+      "appBuildCommand": "npm run build -- --configuration=development",
       "routes": [
         {
           "route": "/*",
@@ -35,7 +53,8 @@
     },
     "prod": {
       "appLocation": "src",
-      "outputLocation": "dist/gita-app/browser",
+      "outputLocation": "dist/gita-app",
+      "appBuildCommand": "npm run build -- --configuration=production",
       "routes": [
         {
           "route": "/*",

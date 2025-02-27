@@ -1,6 +1,7 @@
 import { effect, Injectable, numberAttribute } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { h } from 'ionicons/dist/types/stencil-public-runtime';
+import e from 'express';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,8 +19,8 @@ export class UtilityService {
     return environment.baseURL + "/chap" + chapterNumber + "/" + content + "_" + chapterNumber + "_" + slokaIndex + ".txt"
   }
 
-  getChapterName(chapterId: number): string {
-    return environment.chapters[chapterId].title;
+  getChapterName(chapterId: number, isSanskrit: boolean): string {
+    return isSanskrit? environment.chapters[chapterId].sanskrit: environment.chapters[chapterId].english;
   }
 
   getSlokaAudioURL(chapterId: number, slokaId: number): string {
@@ -34,7 +35,16 @@ export class UtilityService {
     return environment.baseURL + "/chap" + chapterNumber + "/" + chapterName + ".mp3"
   } 
 
-  getChapterResource(chapterId: number): string {
+  getChapterResource(chapterId: number, isSanskrit: boolean): string {
+    if(isSanskrit){
+      let replaceValue: string = 'bg_chapter' + this.getLeftAppendedNumber(chapterId);
+      if(chapterId === 0){
+        replaceValue = 'bg_dhyaanam';
+      }else if(chapterId === 19){
+        replaceValue = 'bg_maahaatmyam';
+      }
+      return environment.prapatti.urlTemplate.replace('{chapter}', replaceValue);
+    }
     let chapterNumber: string = this.getLeftAppendedNumber(chapterId);
     let chapterName: string = this.getChapterResourceName(chapterId);
     let url = environment.baseURL + "/chap" + chapterNumber + "/" + chapterName + ".pdf";
@@ -42,10 +52,20 @@ export class UtilityService {
   } 
 
   getChapterResourceName(chapterId: number): string {
-    return this.getChapterName(chapterId).replace('Chapter-','chap').toLowerCase();
+    const chapterName = environment.chapters[chapterId].english
+    return chapterName.replace('Chapter-','chap').toLowerCase();
   }
 
   getSlokaCount(chapterId: number): number {
      return environment.chapters[chapterId].slokaCount;
   }
+
+  getSlokaTitle(index: number, isSanskrit: boolean ): string {
+    return isSanskrit? 'श्लोक ' + index : 'Verse ' + index;
+  }
+
+  getApplicationTitle(isSanskrit: boolean): string {
+    return isSanskrit? environment.title.sanskrit:environment.title.english;
+  }
+
 }

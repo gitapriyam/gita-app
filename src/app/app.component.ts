@@ -1,29 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import {
-  IonApp, IonSplitPane, IonMenu, IonContent,
-  IonList, IonListHeader, IonMenuToggle,
-  IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink
-} from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { folderOutline, arrowForwardCircleOutline, arrowBackCircleOutline } from 'ionicons/icons';
-import { environment } from '../environments/environment';
-import { FooterComponent } from './footer/footer.component';
-import { ChapterPage } from './chapter/chapter.page'
-
+import { RouterOutlet } from '@angular/router';
+import { ChaptersComponent } from './chapters/chapters.component';
 @Component({
   selector: 'app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss'],
-  imports: [RouterLink, RouterLinkActive, IonApp, IonSplitPane,
-    IonMenu, IonContent, IonList, IonListHeader, IonMenuToggle,
-    IonItem, IonIcon, IonLabel, IonRouterLink, IonRouterOutlet,
-    FooterComponent],
+  imports: [RouterOutlet, ChaptersComponent],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.less'
 })
 export class AppComponent {
-  public chapters = environment.chapters;
-
-  constructor() {
-    addIcons({ folderOutline, arrowForwardCircleOutline, arrowBackCircleOutline });
-  }
+  title = 'gita-app';
 }
