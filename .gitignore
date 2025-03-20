@@ -42,7 +42,3 @@ testem.log
 Thumbs.db
 
 .env
-local-deploy.sh
-*-env-*.sh
-swa-*.sh
-
