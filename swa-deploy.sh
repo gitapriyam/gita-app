@@ -25,5 +25,7 @@ else
     --app-location src \
     --config-name $ENVIRONMENT \
     --output-location dist/gita-app/browser \
-    --env $ENVIRONMENT
+    --env $ENVIRONMENT \
+    --deployment-token $AZURE_STATIC_WEB_APPS_API_TOKEN \
+    --app-name gita-app-rg/gita-app
 fi
