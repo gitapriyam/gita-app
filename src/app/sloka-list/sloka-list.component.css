@@ -74,3 +74,39 @@
       flex-direction: column;
     }
   }
+
+  .sloka-group-container {
+    border: 1px dotted var(--border-color); /*Use the CSS variable for the border color */
+    padding: 10px; /* Add some padding inside the container */
+    margin: 10px 0; /* Add some margin around the container */
+    border-radius: 5px; /* Optional: Add rounded corners */
+  }
+
+  .sliding-pane {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    background-color: var(--card-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 999;
+  }
+  
+  .sliding-pane.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .toggle-pane-btn {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 10px;
+  }

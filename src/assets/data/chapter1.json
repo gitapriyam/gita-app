@@ -1,0 +1,68 @@
+{
+  "groups": [
+    {
+      "groupId": 1,
+      "slokas": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "groupId": 2,
+      "slokas": [
+        8,
+        9
+      ]
+    },
+    {
+      "groupId": 3,
+      "slokas": [
+        17,
+        18
+      ]
+    },
+    {
+      "groupId": 4,
+      "slokas": [
+        20,
+        21
+      ]
+    },
+    {
+      "groupId": 5,
+      "slokas": [
+        24,
+        25
+      ]
+    },
+    {
+      "groupId": 6,
+      "slokas": [
+        26,
+        27
+      ]
+    },
+    {
+      "groupId": 7,
+      "slokas": [
+        28,
+        29
+      ]
+    },
+    {
+      "groupId": 8,
+      "slokas": [
+        33,
+        34
+      ]
+    },
+    {
+      "groupId": 9,
+      "slokas": [
+        38,
+        39
+      ]
+    }
+  ]
+}

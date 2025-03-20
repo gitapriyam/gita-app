@@ -4,8 +4,8 @@
     <h3 class="header-title">{{getApplicationTitle()}}</h3>
     <i class="fas fa-info-circle reference-icon" (click)="openReferences()"></i>
     <div class="dropdown">
-      <i class="fas fa-download dropbtn"></i>
-      <div class="dropdown-content">
+      <i class="fas fa-download dropbtn" (click)="toggleDropdown()"></i>
+      <div class="dropdown-content" *ngIf="isDropdownOpen" (click)="$event.stopPropagation()">
         <a [href]="chapterAudioSrc" target="_blank" download>Audio</a>
         <a [href]="chapterResource" target="_blank" download>PDF</a>
       </div>
@@ -36,7 +36,7 @@
         (sanskritToggled)="toggleSanskrit()"></app-sloka-list>
     </div>
     <div class="sloka-view" *ngIf="showSlokaView" (click)="hideChapterOverlay()">
-      <app-sloka [chapterId]="chapterId" [slokaId]="slokaId" [showSanskrit]="showSanskrit"></app-sloka>
+      <app-sloka [chapterId]="chapterId" [slokaGroup]="[slokaId]" [showSanskrit]="showSanskrit"></app-sloka>
     </div>
   </div>
     <!-- Modal for References -->

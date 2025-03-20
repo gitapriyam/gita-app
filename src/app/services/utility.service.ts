@@ -61,7 +61,7 @@ export class UtilityService {
   }
 
   getSlokaTitle(index: number, isSanskrit: boolean ): string {
-    return isSanskrit? 'श्लोक ' + index : 'Verse ' + index;
+    return isSanskrit? 'श्लोकः ' + index : 'Verse ' + index;
   }
 
   getApplicationTitle(isSanskrit: boolean): string {

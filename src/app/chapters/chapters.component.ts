@@ -31,6 +31,7 @@ export class ChaptersComponent implements OnInit {
   chapterResource: string = '';
   showReferences: boolean = false;
   references: string[] = environment.references;
+  isDropdownOpen: boolean = false;
 
   constructor(private contentService: ContentService,
     private utilityService: UtilityService,
@@ -119,5 +120,19 @@ export class ChaptersComponent implements OnInit {
 
   closeReferences(): void {
     this.showReferences = false;
+  }
+
+  toggleDropdown(): void {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement;
+
+    // Close the dropdown if the click is outside the dropdown
+    if (!target.closest('.dropdown')) {
+      this.isDropdownOpen = false;
+    }
   }
 }

@@ -12,6 +12,8 @@
   --modal-text-color: #000000;
   --modal-overlay-color: rgba(0, 0, 0, 0.4);
   --modal-border-color: #888;
+  --border-color: #000; /* Black for light theme */  
+ 
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,6 +26,7 @@
     --modal-text-color: #ffffff;
     --modal-overlay-color: rgba(0, 0, 0, 0.8);
     --modal-border-color: #555;
+    --border-color: #fff; /* White for dark theme */ 
   }
 }
 
@@ -35,6 +38,14 @@ body {
   color: var(--text-color);
   margin: 0;
   padding: 0;
+}
+
+body.light-theme {
+  --border-color: var(--border-color-light);
+}
+
+body.dark-theme {
+  --border-color: var(--border-color-dark);
 }
 
 .container {
