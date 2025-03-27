@@ -1,4 +1,4 @@
-# GitaAppNew
+# GitaApp
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.8.
 
@@ -7,10 +7,10 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 To start a local development server, run:
 
 ```bash
-ng serve
+./swa-deploy.sh development start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Once the server is running, open your browser and navigate to `http://localhost:4280/`. The application will automatically reload whenever you modify any of the source files.
 
 ## Code scaffolding
 
@@ -31,6 +31,8 @@ ng generate --help
 To build the project run:
 
 ```bash
+npm install -g @azure/static-web-apps-cli
+npm install
 ng build
 ```
 

@@ -4,13 +4,11 @@ on:
   push:
     branches:
       - development
-      - test
       - master
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
       - development
-      - test
       - master
 
 jobs:
