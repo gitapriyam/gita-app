@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs'; // Import 'of' to provide fallback data
+
 @Component({
   selector: 'app-sloka',
   templateUrl: './sloka.component.html',
@@ -17,7 +18,7 @@ export class SlokaComponent implements OnChanges {
   @Input() slokaTitle: string = '';
   @Input() slokaGroup: number[] = [];
   @Input() showSandhi: boolean = false;
-  @Input() groups: any[] = []; // Accept groups as an input
+  @Input() isSlokaGroupsReady: boolean = false
   slokaMeaning: string[] = [];
   slokaAudioSrc: string[] = [];
   sanskritSandhi: string = "";
@@ -50,7 +51,7 @@ export class SlokaComponent implements OnChanges {
   }
 
   fetchSandhiAndAnvaya(): void {
-    if (this.showSanskrit && this.showSandhi && this.groups.length > 0) {
+    if (this.showSanskrit && this.showSandhi && this.isSlokaGroupsReady) {
       const sandhiURL = this.utilityService.getSlokaURL(this.chapterId, this.slokaGroup[0], 'sandhi');
       this.contentService.getContent(sandhiURL).subscribe(
         content => (this.sanskritSandhi = content),
@@ -70,6 +71,7 @@ export class SlokaComponent implements OnChanges {
       );
     }
   }
+
   updateSlokaContent(): void {
     this.fetchSandhiAndAnvaya();
 
