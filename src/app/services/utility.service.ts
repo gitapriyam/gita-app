@@ -50,11 +50,16 @@ export class UtilityService {
       }
       return environment.prapatti.urlTemplate.replace('{chapter}', replaceValue);
     }
-    let chapterNumber: string = this.getLeftAppendedNumber(chapterId);
     let chapterName: string = this.getChapterResourceName(chapterId);
     let url = this.getChapterBasePath(chapterId) + chapterName + ".pdf";
     return url;
-  } 
+  }
+  
+  getChapterTamilResource(chapterId: number): string {    
+    let url = this.getChapterResource(chapterId, false);
+    url = url.replace('.pdf', '-tamil.pdf');
+    return url;
+  }
 
   getChapterResourceName(chapterId: number): string {
     const chapterName = environment.chapters[chapterId].english
