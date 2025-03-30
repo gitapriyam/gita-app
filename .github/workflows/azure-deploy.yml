@@ -22,7 +22,7 @@ jobs:
       AZURE_STATIC_WEB_APPS_APP_NAME: ${{secrets.AZURE_STATIC_WEB_APPS_APP_NAME}}
       AZURE_STATIC_WEB_APPS_RESOURCE_GROUP: ${{secrets.AZURE_STATIC_WEB_APPS_RESOURCE_GROUP}}
       AZURE_STATIC_WEB_APPS_SUBSCRIPTION_ID: ${{secrets.AZURE_STATIC_WEB_APPS_SUBSCRIPTION_ID}}      
-      DEPLOYMENT_ENVIRONMENT: ${{ github.ref_name == 'master' && 'production' || 'development' }}
+      DEPLOYMENT_ENVIRONMENT: ${{ github.ref_name == 'master' && 'production' || github.ref_name == 'development' && 'development' }}
       APP_LOCATION: "src"
       OUTPUT_LOCATION: "dist/gita-app/browser"
     name: Build and Deploy Job
