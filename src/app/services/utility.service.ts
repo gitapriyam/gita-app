@@ -13,10 +13,15 @@ export class UtilityService {
     return number < 10 ? '0' + number : number.toString();
   }
 
-  getSlokaURL(chapterId: number, slokaId: number, content: string): string {
+  getSlokaURL(chapterId: number, slokaId: number, content: string): string {    
     let chapterNumber: string = this.getLeftAppendedNumber(chapterId);
     let slokaIndex: string = this.getLeftAppendedNumber(slokaId);
-    return environment.baseURL + "/chap" + chapterNumber + "/" + content + "_" + chapterNumber + "_" + slokaIndex + ".txt"
+    return this.getChapterBasePath(chapterId) + content + "_" + chapterNumber + "_" + slokaIndex + ".txt"
+  }
+
+  getChapterBasePath(chapterId: number) {
+    let chapterNumber: string = this.getLeftAppendedNumber(chapterId);
+    return environment.baseURL + "/chap" + chapterNumber + "/";
   }
 
   getChapterName(chapterId: number, isSanskrit: boolean): string {
@@ -26,13 +31,13 @@ export class UtilityService {
   getSlokaAudioURL(chapterId: number, slokaId: number): string {
     let chapterNumber: string = this.getLeftAppendedNumber(chapterId);
     let slokaIndex: string = this.getLeftAppendedNumber(slokaId);
-    return environment.baseURL + "/chap" + chapterNumber + "/" + chapterNumber + "-" + slokaIndex + ".mp3"
+    return this.getChapterBasePath(chapterId) + chapterNumber + "-" + slokaIndex + ".mp3"
   }
 
   getChapterAudioURL(chapterId: number): string {
     let chapterNumber: string = this.getLeftAppendedNumber(chapterId);
     let chapterName: string = this.getChapterResourceName(chapterId);
-    return environment.baseURL + "/chap" + chapterNumber + "/" + chapterName + ".mp3"
+    return this.getChapterBasePath(chapterId) + chapterName + ".mp3"
   } 
 
   getChapterResource(chapterId: number, isSanskrit: boolean): string {
@@ -45,11 +50,16 @@ export class UtilityService {
       }
       return environment.prapatti.urlTemplate.replace('{chapter}', replaceValue);
     }
-    let chapterNumber: string = this.getLeftAppendedNumber(chapterId);
     let chapterName: string = this.getChapterResourceName(chapterId);
-    let url = environment.baseURL + "/chap" + chapterNumber + "/" + chapterName + ".pdf";
+    let url = this.getChapterBasePath(chapterId) + chapterName + ".pdf";
     return url;
-  } 
+  }
+  
+  getChapterTamilResource(chapterId: number): string {    
+    let url = this.getChapterResource(chapterId, false);
+    url = url.replace('.pdf', '-tamil.pdf');
+    return url;
+  }
 
   getChapterResourceName(chapterId: number): string {
     const chapterName = environment.chapters[chapterId].english

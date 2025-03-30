@@ -5,7 +5,8 @@ import { UtilityService } from '../services/utility.service';
 import { FormsModule } from '@angular/forms';
 import { SlokaComponent } from '../sloka/sloka.component';
 import { SlokaService } from '../services/sloka.service';
-
+import { environment } from '../../environments/environment';
+import { Readiness } from '../services/sloka.service';
 @Component({
   selector: 'app-sloka-list',
   templateUrl: './sloka-list.component.html',
@@ -26,6 +27,8 @@ export class SlokaListComponent implements OnChanges {
   showSandhi: boolean = false;
   isPaneVisible: boolean = false;
   groups: any[] = []; // Store groups here
+  isSlokaGroupsReady: boolean = false;
+
   constructor(private contentService: ContentService,
     private utilityService: UtilityService,
     private slokaService: SlokaService) { }
@@ -33,6 +36,10 @@ export class SlokaListComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['chapterId'] || changes['showSanskrit'] || changes['chapterName']) {
       this.loadSlokas();
+      // Reset showSandhi if isSlokaGroupsReady is false
+      if (!this.isSlokaGroupsReady) {
+        this.showSandhi = false;
+      }
     }
   }
 
@@ -44,6 +51,7 @@ export class SlokaListComponent implements OnChanges {
   }
 
   async populateSlokaData(): Promise<void> {
+    const isProduction: boolean = environment.production ? true : false;
     // Prefill with standalone sloka data
     this.slokaData = [];
     this.slokaData = Array.from({ length: this.slokaCount }, (_, i) => [0]);
@@ -55,9 +63,11 @@ export class SlokaListComponent implements OnChanges {
 
       interface SlokaDataResponse {
         groups: SlokaGroup[];
+        readiness: Readiness
       }
-
-      const data: SlokaDataResponse = await this.slokaService.getSlokaData(this.chapterId).toPromise();
+      const slokaGroupsUrl: string = this.utilityService.getChapterBasePath(this.chapterId) + 'sloka-groups.json';
+      const data: SlokaDataResponse = await this.slokaService.getSlokaData(slokaGroupsUrl).toPromise();
+      this.isSlokaGroupsReady = this.slokaService.isSlokaGroupReady(isProduction, data.readiness);
       this.groups = data.groups;
       for (const group of this.groups) {
         for (const slokaId of group.slokas) {
