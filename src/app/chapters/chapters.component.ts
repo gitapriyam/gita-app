@@ -29,6 +29,7 @@ export class ChaptersComponent implements OnInit {
   fontSize: number = 16;
   chapterAudioSrc: string = '';
   chapterResource: string = '';
+  chapterTamilResource: string = '';
   showReferences: boolean = false;
   references: string[] = environment.references;
   isDropdownOpen: boolean = false;
@@ -73,6 +74,7 @@ export class ChaptersComponent implements OnInit {
     this.showSlokaView = false;
     this.chapterAudioSrc = this.utilityService.getChapterAudioURL(this.chapterId);
     this.chapterResource = this.utilityService.getChapterResource(this.chapterId, this.showSanskrit);
+    this.chapterTamilResource = this.utilityService.getChapterTamilResource(this.chapterId);
     if (isPlatformBrowser(this.platformId) && this.windowWidth < 768) {
       this.showChapterView = false;
     }
