@@ -4,7 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build:frontend": "ng build --configuration=production",
+    "build:api": "cd api && npm install && npm test && npm run build",
+    "build": "npm run build:frontend && npm run build:api",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:gita-app": "node dist/gita-app/server/server.mjs"

@@ -1,0 +1,21 @@
+{
+  "name": "gita-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/functions/*.js",
+  "scripts": {
+    "start": "func start",
+    "build": "echo 'No build step required for API'",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.0.0",
+    "axios": "^1.8.4",
+    "azure-function-express": "^1.1.0"
+  },
+  "devDependencies": {
+    "azure-functions-core-tools": "^4.x",
+    "jest": "^29.7.0",
+    "supertest": "^7.1.0"
+  }
+}
