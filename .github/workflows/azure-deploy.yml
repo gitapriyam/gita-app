@@ -48,13 +48,19 @@ jobs:
       run: npm install -g @azure/static-web-apps-cli
 
     - name: Build project
-      run: npm run build -- --configuration=${{ github.ref_name == 'master' && 'production' || 'development' }}
+      run: npm run build -- --configuration=${{ github.ref_name == 'master' && 'Production' || 'development' }}
     
     - name: Deploy Static Web App
       run: |
-        swa deploy \
-          --app-location src \
-          --output-location dist/gita-app/browser \
-          --env $DEPLOYMENT_ENVIRONMENT \
-          --deployment-token $AZURE_STATIC_WEB_APPS_API_TOKEN \
-          --app-name $AZURE_STATIC_WEB_APPS_APP_NAME
+        swa --verbose=silly deploy \
+            --config swa-cli.config.json \
+            --app-location src \
+            --api-location api \
+            --config-name $DEPLOYMENT_ENVIRONMENT \
+            --output-location dist/gita-app/browser \
+            --env $DEPLOYMENT_ENVIRONMENT \
+            --deployment-token $AZURE_STATIC_WEB_APPS_API_TOKEN \
+            --app-name $AZURE_STATIC_WEB_APPS_APP_NAME \
+            --swa-config-location src \
+            --api-language node \
+            --api-version 18

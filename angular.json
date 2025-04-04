@@ -62,44 +62,28 @@
             "local": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.local.ts"
-                }
-              ]
+              "sourceMap": true
+              
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.development.ts"
-                }
-              ]
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "proxyConfig": "proxy.conf.json"
-          },
+          "options": {},
           "configurations": {
             "production": {
-              "proxyConfig": "proxy.prod.json",
               "buildTarget": "gita-app:build:production"
             },
             "development": {
-              "proxyConfig": "proxy.conf.dev.json",
               "buildTarget": "gita-app:build:development"
             },
             "local": {
-              "proxyConfig": "proxy.conf.local.json",
               "buildTarget": "gita-app:build:development"
             }
           },

@@ -3,11 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { remoteResource } from '../models/remote-resource.model'; // Import the interface
 import { SlokaData } from '../models/sloka-data.model'; // Import the interface
+import { environment } from '../../environments/environment';
+import { of as rxjsOf} from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
+  private apiUrl = environment.apiUrl === 'http://mock-api' ? 'http://mock-api' : environment.apiUrl;
   constructor(private http: HttpClient) { }
 
   // Example: Fetch sloka data
@@ -27,8 +30,8 @@ export class ApiService {
   }
 
   getChapters(): Observable<any> {
-    const url = `api/chapters`;
-    return this.http.get<any>(url);
+    const url = 'assets/data/chapters.json'; // Path to the JSON file
+    return this.http.get<any>(url); // Fetch the JSON file
   }
 
   getChapterAudio(chapterId: number): Observable<remoteResource> {
@@ -42,3 +45,7 @@ export class ApiService {
   }
 
 }
+function of(data: { id: number; name: string; }[]): Observable<any> {
+  return rxjsOf(data);
+}
+

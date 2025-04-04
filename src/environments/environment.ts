@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  apiUrl: '/api', 
   baseURL: 'https://slokastorage.blob.core.windows.net/gitaresources',
   prapatti: {
     urlTemplate: 'https://www.prapatti.com/slokas/sanskrit/bhagavad-giitaa/{chapter}.pdf'
