@@ -53,6 +53,7 @@ if [ "$ACTION" == "start" ]; then
 else
   echo "Deploying to environment: $ENVIRONMENT"
   export NODE_ENV=production
+  export DEBUG=swa:*
   swa --verbose=silly deploy \
     --config swa-cli.config.json \
     --app-location $APP_LOCATION \

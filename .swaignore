@@ -1,0 +1,11 @@
+# Ignore test-related files and folders
+tests/
+jest.config.js
+
+# Ignore local settings
+local.settings.json
+.env
+
+# Ignore build artifacts
+dist/
+coverage/

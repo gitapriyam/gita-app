@@ -15,6 +15,8 @@ local.settings.json
 # Ignore test-related files and folders
 test
 coverage
+tests/
+jest.config.js
 
 # Ignore documentation and markdown files
 *.md
