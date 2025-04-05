@@ -42,8 +42,13 @@ testem.log
 Thumbs.db
 
 .env
-__azur*.json
-__azur*/**
-api/.vscode/**
-api/node_modules/**
+__azurite_db_blob__.json
+__azurite_db_blob_extent__.json
+__azurite_db_queue__.json
+__azurite_db_queue_extent__.json
+__azurite_db_table__.json
+**/.vscode/*
+*queustorage*/**/
+*tablestorage*/**/
+AzuriteConfig
 __blobstorage__

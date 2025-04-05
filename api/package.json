@@ -1,0 +1,15 @@
+{
+  "name": "gita-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "func start",
+    "build": "echo 'No build step required for API'"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.0.0",
+    "axios": "^1.8.4",
+    "azure-function-express": "^1.1.0"
+  }
+}

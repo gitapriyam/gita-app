@@ -1,10 +1,11 @@
 import { Component, Input, ViewChild, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
 import { UtilityService } from '../services/utility.service';
-import { ContentService } from '../services/content.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs'; // Import 'of' to provide fallback data
+import { catchError, map } from 'rxjs/operators';
+import { of, Observable } from 'rxjs'; // Import 'of' and 'Observable' to provide fallback data
+import { ApiService } from '../services/api.service';
+import { remoteResource } from '../models/remote-resource.model'; // Import the interface
 
 @Component({
   selector: 'app-sloka',
@@ -20,7 +21,6 @@ export class SlokaComponent implements OnChanges {
   @Input() showSandhi: boolean = false;
   @Input() isSlokaGroupsReady: boolean = false
   slokaMeaning: string[] = [];
-  slokaAudioSrc: string[] = [];
   sanskritSandhi: string = "";
   sanskritAnvaya: string = "";
   selectedSloka: number | null = null; // Track the selected sloka
@@ -28,86 +28,75 @@ export class SlokaComponent implements OnChanges {
   @ViewChild('audioPlayer', { static: false }) audioPlayer!: ElementRef<HTMLAudioElement>;
 
   constructor(private utilityService: UtilityService,
-    private contentService: ContentService) { }
+     private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.updateSlokaContent();
     if (this.slokaGroup.length > 0) {
       this.selectedSloka = this.slokaGroup[0]; // Default to the first sloka in the group
     }
   }
 
-  ngAfterViewInit(): void {
-    // Ensure the audioPlayer is initialized after the view is ready
-    if (this.selectedSloka) {
-      this.onSlokaChange(); // Update the audio source after the view is initialized
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['slokaId'] || changes['showSanskrit'] || changes['showSandhi'] || changes['groups']) {
+  ngOnChanges(changes: SimpleChanges): void {    
+    if (changes['chapterId'] || changes['showSanskrit'] || changes['showSandhi'] ) {
       this.updateSlokaContent();
     }
   }
 
+  getSlokaContent(chapterId: number, slokaId: number, content: string): Observable<string> {
+    return this.apiService.getSloka(chapterId, slokaId, content).pipe(
+      map((data: any) => data.content),
+      catchError((error: any) => {
+        console.error(`Error fetching Sloka content for Chapter ${chapterId}, Sloka ${slokaId}, Content: ${content}`, error);
+        return of(`Error fetching Sloka content for Chapter ${chapterId}, Sloka ${slokaId}, Content: ${content}`);
+      })
+    );
+  }
+
   fetchSandhiAndAnvaya(): void {
     if (this.showSanskrit && this.showSandhi && this.isSlokaGroupsReady) {
-      const sandhiURL = this.utilityService.getSlokaURL(this.chapterId, this.slokaGroup[0], 'sandhi');
-      this.contentService.getContent(sandhiURL).subscribe(
-        content => (this.sanskritSandhi = content),
-        error => {
-          console.error('Error fetching Sandhi:', error);
-          this.sanskritSandhi = 'Error loading Sandhi content.';
-        }
-      );
-
-      const anvayaURL = this.utilityService.getSlokaURL(this.chapterId, this.slokaGroup[0], 'anvaya');
-      this.contentService.getContent(anvayaURL).subscribe(
-        content => (this.sanskritAnvaya = content),
-        error => {
-          console.error('Error fetching Anvaya:', error);
-          this.sanskritAnvaya = 'Error loading Anvaya content.';
-        }
-      );
+      this.getSlokaContent(this.chapterId, this.slokaGroup[0], 'sandhi').subscribe(content => {
+        this.sanskritSandhi = content;
+      });
+      this.getSlokaContent(this.chapterId, this.slokaGroup[0], 'anvaya').subscribe(content => {
+        this.sanskritAnvaya = content;
+      });
     }
+  }
+
+  private fetchSlokaMeaningAndAudio(slokaId: number = 0): void {
+    this.getSlokaContent(this.chapterId, slokaId, 'meaning').subscribe(content => {
+      this.slokaMeaning[slokaId] = content;
+    });
+
+    this.apiService.getSlokaAudio(this.chapterId, slokaId).subscribe((response: remoteResource) => {
+      this.assignAudioSource(response.url); // Assign the audio source
+    }, (error: any) => {
+      console.error(`Error fetching audio URL for Sloka ${slokaId}:`, error);
+      this.assignAudioSource(''); // Assign the audio source
+    });
   }
 
   updateSlokaContent(): void {
     this.fetchSandhiAndAnvaya();
-
-    for (const slokaId of this.slokaGroup) {
-      const meaningURL = this.utilityService.getSlokaURL(this.chapterId, slokaId, 'meaning');
-      this.contentService.getContent(meaningURL).pipe(
-        catchError(error => {
-          console.error(`Error fetching meaning for Sloka ${slokaId}:`, error);
-          this.slokaMeaning[slokaId] = 'Error loading meaning.';
-          return of(null); // Return a fallback observable
-        })
-      ).subscribe(content => {
-        if (content) {
-          this.slokaMeaning[slokaId] = content;
-        }
-      });
-
-      const audioURL = this.utilityService.getSlokaAudioURL(this.chapterId, slokaId);
-      this.slokaAudioSrc[slokaId] = audioURL; // Assuming audio URLs are static and don't require error handling
-    }
+    this.fetchSlokaMeaningAndAudio(this.slokaGroup[0]);
   }
 
   onSlokaChange(): void {
     // Dynamically update the audio source
-    if (this.audioPlayer && this.selectedSloka) {
+    console.log('Selected Sloka:', this.selectedSloka);
+    this.fetchSlokaMeaningAndAudio(this.selectedSloka!); // Fetch meaning and audio for the selected sloka
+    this.assignAudioSource();
+  }
+
+  private assignAudioSource(audioUrl: string = ''): void {
+    if (this.audioPlayer ) {
       const audioElement = this.audioPlayer.nativeElement;
       // Stop the currently playing audio
       audioElement.pause();
       audioElement.currentTime = 0;
 
-      // Clear the current source to reset the player
-      audioElement.src = '';
-      audioElement.load(); // Reload the audio element to visually reset it
-
-      audioElement.src = this.slokaAudioSrc[this.selectedSloka];
-      audioElement.load(); // Reload the audio element to apply the new source
+      audioElement.src = audioUrl;
+      audioElement.load();
     }
   }
 

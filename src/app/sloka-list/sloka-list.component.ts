@@ -1,12 +1,13 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ContentService } from '../services/content.service';
 import { UtilityService } from '../services/utility.service';
 import { FormsModule } from '@angular/forms';
 import { SlokaComponent } from '../sloka/sloka.component';
 import { SlokaService } from '../services/sloka.service';
 import { environment } from '../../environments/environment';
-import { Readiness } from '../services/sloka.service';
+import { SandhiReadiness } from '../models/sandhi-readiness.model';
+import { ApiService } from '../services/api.service';
+import { SlokaData } from '../models/sloka-data.model'; // Import the interface
 @Component({
   selector: 'app-sloka-list',
   templateUrl: './sloka-list.component.html',
@@ -29,11 +30,12 @@ export class SlokaListComponent implements OnChanges {
   groups: any[] = []; // Store groups here
   isSlokaGroupsReady: boolean = false;
 
-  constructor(private contentService: ContentService,
-    private utilityService: UtilityService,
-    private slokaService: SlokaService) { }
+  constructor( private utilityService: UtilityService,
+    private slokaService: SlokaService,
+    private apiService: ApiService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.showSandhi = false;
     if (changes['chapterId'] || changes['showSanskrit'] || changes['chapterName']) {
       this.loadSlokas();
       // Reset showSandhi if isSlokaGroupsReady is false
@@ -61,12 +63,12 @@ export class SlokaListComponent implements OnChanges {
         slokas: number[];
       }
 
-      interface SlokaDataResponse {
+      interface SlokaGroupData {
         groups: SlokaGroup[];
-        readiness: Readiness
+        readiness: SandhiReadiness
       }
-      const slokaGroupsUrl: string = this.utilityService.getChapterBasePath(this.chapterId) + 'sloka-groups.json';
-      const data: SlokaDataResponse = await this.slokaService.getSlokaData(slokaGroupsUrl).toPromise();
+      const data: SlokaGroupData = await this.apiService.getSlokaGroupData(this.chapterId).toPromise();
+      this.slokaData = Array.from({ length: this.slokaCount }, (_, i) => [i + 1]);
       this.isSlokaGroupsReady = this.slokaService.isSlokaGroupReady(isProduction, data.readiness);
       this.groups = data.groups;
       for (const group of this.groups) {
@@ -85,13 +87,17 @@ export class SlokaListComponent implements OnChanges {
     this.expandedSloka = null;
     this.populateSlokaData();
     this.chapterName = this.utilityService.getChapterName(this.chapterId, this.showSanskrit);
-    const language = this.showSanskrit ? 'sanskrit' : 'english';
+    const content = this.showSanskrit ? 'sanskrit' : 'english';
     this.slokas = [];
     for (let slokaIndex = 1; slokaIndex <= this.slokaCount; slokaIndex++) {
-      const slokaURL: string = this.utilityService.getSlokaURL(this.chapterId, slokaIndex, language);
-      this.contentService.getContent(slokaURL).subscribe((data: string) => {
-        this.slokas[slokaIndex - 1] = data;
-      });
+      this.apiService.getSloka(this.chapterId, slokaIndex, content).subscribe(
+        (data: SlokaData) => {
+          this.slokas[slokaIndex - 1] = data.content // Adjust this based on the actual response format
+        },
+        (error) => {
+          console.error(`Error fetching sloka ${slokaIndex}:`, error);
+        }
+      );
     }
   }
 

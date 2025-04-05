@@ -59,27 +59,31 @@
               ],
               "outputHashing": "all"
             },
+            "local": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+              
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.development.ts"
-                }
-              ]
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {},
           "configurations": {
             "production": {
               "buildTarget": "gita-app:build:production"
             },
             "development": {
+              "buildTarget": "gita-app:build:development"
+            },
+            "local": {
               "buildTarget": "gita-app:build:development"
             }
           },
