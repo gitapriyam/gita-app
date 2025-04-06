@@ -10,7 +10,10 @@ export class UtilityService {
   constructor(private chapterService: ChapterService) { }
 
   getChapters(): any[] {
-    const chapters = this.chapterService.getChapters();
+    let chapters: string[] = [];
+    this.chapterService.getChapters().subscribe((data: any[]) => {
+      chapters = data;
+    });
     if (!chapters || chapters.length === 0) {
       console.warn('Chapters data is not yet available.');
     }

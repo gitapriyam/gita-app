@@ -7,7 +7,7 @@
       "outputLocation": "dist/gita-app/browser",
       "appBuildCommand": "npm run build -- --configuration=development",
       "appArtifactLocation": "dist/gita-app",
-      "run": "npm start",
+      "run": "ng serve --port 4200",
       "appDevserverUrl": "http://localhost:4200",
       "routes": [
         {

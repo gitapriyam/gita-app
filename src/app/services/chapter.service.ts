@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { tap, catchError, map } from 'rxjs/operators';
+import { environment } from '../../environments/environment'; // Import environment
 
 @Injectable({
   providedIn: 'root'
@@ -10,37 +9,29 @@ export class ChapterService {
   private chaptersSubject = new BehaviorSubject<any[]>([]); // BehaviorSubject to store chapters
   private chaptersLoaded = false; // Flag to track if chapters are already loaded
 
-  constructor(private apiService: ApiService) {}
+  constructor() {}
 
-  // Fetch chapters from the API (only if not already loaded)
+  // Fetch chapters from the environment JSON content
   fetchChapters(): Observable<any[]> {
     if (this.chaptersLoaded) {
       // If chapters are already loaded, return the cached data as an Observable
       return this.chaptersSubject.asObservable();
     }
 
-    // Fetch chapters from the API and update the BehaviorSubject
-    return this.apiService.getChapters().pipe(
-      tap((response: any) => {
-        this.chaptersSubject.next(response.chapters); // Update the BehaviorSubject
-        this.chaptersLoaded = true; // Mark chapters as loaded
-      }),
-      catchError((error) => {
-        console.error('Error fetching chapters:', error);
-        return of([]); // Return an empty array in case of an error
-      })
-    );
+    // Load chapters from the environment JSON content
+    const chapters = environment.chapters;
+    this.chaptersSubject.next(chapters); // Update the BehaviorSubject
+    this.chaptersLoaded = true; // Mark chapters as loaded
+    return of(chapters); // Return the chapters as an Observable
   }
 
   // Get the chapters as an Observable
   getChaptersObservable(): Observable<any[]> {
-    return this.apiService.getChapters().pipe(
-      map((response: any) => response.chapters || response) // Normalize the response
-    );
+    return this.chaptersSubject.asObservable();
   }
 
   // Get the current value of chapters synchronously
-  getChapters(): any[] {
-    return this.chaptersSubject.getValue();
+  getChapters(): Observable<any[]> {
+    return this.chaptersSubject.asObservable(); // Directly return the chapters as an Observable
   }
 }
