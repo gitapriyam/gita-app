@@ -8,5 +8,8 @@
         "route": "/*",
         "allowedRoles": ["anonymous"]
       }
-    ]
+    ],
+    "platform": {
+      "apiRuntime": "node:18"
+    }
   }

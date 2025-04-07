@@ -7,7 +7,7 @@ const {
     getChaptersUrl,
     logError,
     validateChapterId
-} = require('../src/utils.js');
+} = require('../../src/functions/utils.js');
 
 describe('Utils Module', () => {
     const remoteResource = "https://slokastorage.blob.core.windows.net/gitaresources";

@@ -17,6 +17,9 @@ test
 coverage
 tests/
 jest.config.js
+__tests__/
+*.test.js
+*.test.ts
 
 # Ignore documentation and markdown files
 *.md
@@ -32,3 +35,6 @@ node_modules
 node_modules/@types/
 node_modules/azure-functions-core-tools/
 node_modules/typescript/
+tsconfig.json
+package-lock.json
+*.log

@@ -1,5 +1,5 @@
 const { app } = require('@azure/functions');
-const { getChapterResource, logError, validateChapterId, validateContent } = require('../utils.js');
+const { getChapterResource, logError, validateChapterId, validateContent } = require('./utils.js');
 app.http('chapterResource', {
     methods: ['GET'],
     authLevel: 'anonymous',

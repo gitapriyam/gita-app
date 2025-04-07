@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { app } = require('@azure/functions');
-const { getSlokaAudioUrl, logError, validateChapterId, validateSlokaId } = require('../utils.js');
+const { getSlokaAudioUrl, logError, validateChapterId, validateSlokaId } = require('./utils.js');
 
 app.http('slokaAudio', {
     methods: ['GET'],

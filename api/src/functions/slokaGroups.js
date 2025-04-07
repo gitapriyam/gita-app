@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { app } = require('@azure/functions');
-const { getSlokaGroupUrl, logError, validateChapterId } = require('../utils.js');
+const { getSlokaGroupUrl, logError, validateChapterId } = require('./utils.js');
 
 app.http('slokaGroups', {
     methods: ['GET'],

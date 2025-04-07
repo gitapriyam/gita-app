@@ -1,6 +1,6 @@
 const { app } = require('@azure/functions');
 const axios = require('axios');
-const { getChaptersUrl, logError } = require('../utils.js');
+const { getChaptersUrl, logError } = require('./utils.js');
 app.http('chapters', {
     methods: ['GET'],
     authLevel: 'anonymous',

@@ -1,5 +1,5 @@
 const { app } = require('@azure/functions');
-const { getChapterAudioURL,logError, validateChapterId } = require('../utils.js');
+const { getChapterAudioURL,logError, validateChapterId } = require('./utils.js');
 
 app.http('chapterAudio', {
     methods: ['GET'],
