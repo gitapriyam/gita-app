@@ -1,0 +1,40 @@
+# Ignore TypeScript source files
+*.ts
+
+# Ignore source maps
+*.js.map
+
+# Ignore Git-related files
+.git*
+.vscode
+
+# Ignore local settings and environment files
+local.settings.json
+.env
+
+# Ignore test-related files and folders
+test
+coverage
+tests/
+jest.config.js
+__tests__/
+*.test.js
+*.test.ts
+
+# Ignore documentation and markdown files
+*.md
+getting_started.md
+
+# Ignore build artifacts
+obj
+bin
+dist
+
+# Ignore node_modules and specific unnecessary dependencies
+node_modules
+node_modules/@types/
+node_modules/azure-functions-core-tools/
+node_modules/typescript/
+tsconfig.json
+package-lock.json
+*.log

@@ -2,20 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import { SandhiReadiness } from '../models/sandhi-readiness.model';
+import { ApiService } from './api.service'; 
 @Injectable({
   providedIn: 'root'
 })
 export class SlokaService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private apiService: ApiService) { }
 
-  getSlokaData(url: string): Observable<any> {    
-    return this.http.get<any>(url);
+  getSlokaGroupData(chapterId: number): Observable<any> {    
+    return this.apiService.getSlokaGroupData(chapterId);
   }
 
-  findSlokaById(url: string, slokaId: number, isSanskrit: boolean): Observable<number[]> {
-    return this.getSlokaData(url).pipe(
+  findSlokaById(chapterId: number, slokaId: number, isSanskrit: boolean): Observable<number[]> {
+    return this.getSlokaGroupData(chapterId).pipe(
       map(data => {
         if (isSanskrit) {
           // Check sloka groups
@@ -32,7 +33,7 @@ export class SlokaService {
     );
   }
 
-  isSlokaGroupReady(isProduction: boolean, readiness: Readiness ): boolean {
+  isSlokaGroupReady(isProduction: boolean, readiness: SandhiReadiness ): boolean {
     if (isProduction) {
       return isProduction && readiness.production;
     }
@@ -40,7 +41,3 @@ export class SlokaService {
   }
 }
 
-export interface Readiness {
-  production: boolean;
-  development: boolean;
-}

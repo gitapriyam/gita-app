@@ -1,11 +1,13 @@
 {
   "$schema": "https://aka.ms/azure/static-web-apps-cli/schema",
   "configurations": {
-    "local": {
-      "appLocation": ".",
-      "outputLocation": "dist/gita-app/",
-      "appBuildCommand": "npm run build",
-      "run": "npm start",
+    "development": {
+      "appLocation": "src",
+      "apiLocation": "api",
+      "outputLocation": "dist/gita-app/browser",
+      "appBuildCommand": "npm run build -- --configuration=development",
+      "appArtifactLocation": "dist/gita-app",
+      "run": "ng serve --port 4200",
       "appDevserverUrl": "http://localhost:4200",
       "routes": [
         {
@@ -29,7 +31,8 @@
     },
     "test": {
       "appLocation": "src",
-      "outputLocation": "dist/gita-app",
+      "apiLocation": "api",
+      "outputLocation": "dist/gita-app/browser",
       "appBuildCommand": "npm run build -- --configuration=development",
       "routes": [
         {
@@ -53,7 +56,8 @@
     },
     "prod": {
       "appLocation": "src",
-      "outputLocation": "dist/gita-app",
+      "apiLocation": "api",
+      "outputLocation": "dist/gita-app/browser",
       "appBuildCommand": "npm run build -- --configuration=production",
       "routes": [
         {

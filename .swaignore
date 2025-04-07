@@ -1,0 +1,24 @@
+# Exclude node_modules
+**/node_modules/
+
+# Exclude test files and directories
+api/tests/
+__tests__/
+coverage/
+api/*.test.js
+api/*.test.ts
+
+# Exclude configuration and log files
+api/jest.config.js
+api/tsconfig.json
+api/package-lock.json
+api/*.log
+
+# Exclude local settings
+api/local.settings.json
+
+# Exclude VSCode settings
+**/.vscode/
+
+# Exclude other unnecessary files
+*.DS_Store
