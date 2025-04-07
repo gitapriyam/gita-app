@@ -1,11 +1,24 @@
-# Ignore test-related files and folders
-tests/
-jest.config.js
+# Exclude node_modules
+**/node_modules/
 
-# Ignore local settings
-local.settings.json
-.env
-
-# Ignore build artifacts
-dist/
+# Exclude test files and directories
+api/tests/
+__tests__/
 coverage/
+api/*.test.js
+api/*.test.ts
+
+# Exclude configuration and log files
+api/jest.config.js
+api/tsconfig.json
+api/package-lock.json
+api/*.log
+
+# Exclude local settings
+api/local.settings.json
+
+# Exclude VSCode settings
+**/.vscode/
+
+# Exclude other unnecessary files
+*.DS_Store

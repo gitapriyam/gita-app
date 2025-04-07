@@ -39,7 +39,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '20.x'
+        node-version: '18.x'
 
     - name: Install dependencies
       run: npm install
@@ -49,7 +49,21 @@ jobs:
 
     - name: Build project
       run: npm run build -- --configuration=${{ github.ref_name == 'master' && 'Production' || 'development' }}
-    
+
+    - name: Clean up API folder
+      run: |
+        rm -rf api/node_modules
+        rm -rf api/tests
+        rm -rf api/coverage
+        rm -f api/*.test.js
+        rm -f api/*.test.ts
+        rm -f api/jest.config.js
+        rm -f api/tsconfig.json
+        rm -f api/package-lock.json
+        rm -f api/*.log
+        rm -f api/local.settings.json
+        rm -rf api/.vscode
+        
     - name: Deploy Static Web App
       run: |
         swa --verbose=silly deploy \
